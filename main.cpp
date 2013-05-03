@@ -4,6 +4,7 @@
 #define EPSA 0.000001
 #define MAXNUMVERT 5000000
 #define MAXPOINT 200
+#define PERTURB 0.001
 
 int numTriangles = 0 ;
 int degTriangles = 0;
@@ -105,7 +106,10 @@ GridData* generateGrids(int xR,int yR,int zR)
 			for(k=0;k<zR;k++)
 			{
 				point4 po(i,j,k,1.0);
-				gData->scalarVal_[i][j][k] = euclidDist(po,center)-radius;
+				GLfloat val_ = euclidDist(po,center)-radius;
+				if(equalityInLimits(val_,0))
+					val_ += PERTURB;
+				gData->scalarVal_[i][j][k] = val_;
 			}
 		}
 	}
